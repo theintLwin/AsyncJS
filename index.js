@@ -1,37 +1,43 @@
-let getTodos = (resource, callback)=>{
-    let request = new XMLHttpRequest();
+let getTodos = (resource)=>{
+
+    return new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
 
 /*__ Async Js code __*/
 request.addEventListener("readystatechange",()=> {
     if(request.readyState == 4 && request.status == 200){
-        let data = JSON.parse(request.responseText)
-       callback(data, undefined);
+        let datas = JSON.parse(request.responseText);
+        resolve(datas);
     }
     else if(request.status == 404)
-    callback(undefined,"something 's going wrong");
+        reject("something is going wrong");
     // console.log("ur link is not ")
 
 })
 // Async code End #https://jsonplaceholder.typicode.com/todos
-
 request.open("GET",resource);
 request.send();  // really work cause of this
+    })
+    
 
         } 
-
-        getTodos("https://jsonplaceholder.typicode.com/todos", (data,err)=>{
-    if(data){
+    getTodos("https://jsonplaceholder.typicode.com/todos")
+    .then((data)=>{
         console.log(data);
-        getTodos("https://jsonplaceholder.typicode.com/todos/1", (d,e)=>{
-            if(d) console.log(d);
-        })
-    }
-    else{
-        console.log(err)
-    }
-})
-
-
-
-
-
+       return getTodos("todos/mgmg.json")
+      
+       
+      
+    })
+    .then((data)=>{
+        console.log(data);
+        return getTodos("todos/ttl.json")
+        
+    })
+    .then((data)=>{
+        console.log(data);
+       
+    })
+    
+    .catch((err) => {
+        console.log(err)} );
